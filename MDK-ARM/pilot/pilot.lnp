@@ -25,6 +25,7 @@
 "pilot\stm32l4xx_hal_uart.o"
 "pilot\stm32l4xx_hal_uart_ex.o"
 "pilot\system_stm32l4xx.o"
+"pilot\sensorproc.o"
 --library_type=microlib --strict --scatter "pilot\pilot.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
