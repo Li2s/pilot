@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "SensorProc.h"
+#include "stdio.h"
 
 /* USER CODE END Includes */
 
@@ -97,6 +98,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	float g_rotation_angle = 0.0;
+	uint16_t g_adc_value = 0;
+	float g_voltage_value = 0.0;
+	char g_transmit_str[80] = "";
 
   /* USER CODE END 2 */
 
@@ -104,17 +108,42 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		/*---------------Andle calculation------------------*/
+		g_adc_value = getAdcRaw(&hadc1);
 		
-		if (checkValueAdc(getAdcRaw(&hadc1)) == 1)
+		if (checkValueAdc(g_adc_value) == 1)
 		{
-			if((getVoltageAdc(getAdcRaw(&hadc1)) <= 3.3) && (getVoltageAdc(getAdcRaw(&hadc1) >= 0)))
+			g_voltage_value = getVoltageAdc(g_adc_value);
+			if((g_voltage_value <= (float)3.3) && (g_voltage_value >= (float)0.0))
 			{
+				g_rotation_angle = getRotationAngle(g_voltage_value);
+				if((g_rotation_angle <= (float)90.0) && (g_rotation_angle >= (float)0.0))
+				{
+					//keep the calculated value
+				}
+				else
+				{
+					g_rotation_angle = 0.0;
+				}
+			}
+			else
+			{
+				g_rotation_angle = 0.0;
 			}
 		}
 		else
 		{
 			g_rotation_angle = 0.0;
 		}
+		/*-----------------------------------------------------*/
+		
+		/*---------------Transmit to COM port------------------*/
+		sprintf(g_transmit_str,"%lf\r\n",g_rotation_angle);
+		HAL_UART_Transmit(&huart2,(uint8_t*)g_transmit_str,16,0xFFFF);
+		HAL_Delay(100);
+		/*-----------------------------------------------------*/
+		
+		HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_8); //green LED blinking just to know everything is ok
 		
     /* USER CODE END WHILE */
 
