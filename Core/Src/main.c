@@ -95,6 +95,8 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+	
+	float g_rotation_angle = 0.0;
 
   /* USER CODE END 2 */
 
@@ -102,6 +104,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		
+		if (checkValueAdc(getAdcRaw(&hadc1)) == 1)
+		{
+			if((getVoltageAdc(getAdcRaw(&hadc1)) <= 3.3) && (getVoltageAdc(getAdcRaw(&hadc1) >= 0)))
+			{
+			}
+		}
+		else
+		{
+			g_rotation_angle = 0.0;
+		}
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
