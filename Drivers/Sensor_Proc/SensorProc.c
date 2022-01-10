@@ -4,7 +4,7 @@
 /* Library for analog sensor processing                               */
 /*--------------------------------------------------------------------*/
 /* Change history                                                     */
-/* Num   |   Date   |     Author     |    PR     |    Description     */ 
+/* Num   |   Date   |     Author     |    PR     |    Description     */
 /*  0    |24.06.2021|  Lituev N.A.   |    NA     |  Initial commit    */
 /*  1    |09.07.2021|  Lituev N.A.   |    NA     |  Comments added    */
 /*  2    |15.07.2021|  Lituev N.A.   |    NA     | Architecture reorg */
@@ -50,8 +50,8 @@ uint16_t getAdcRaw(ADC_HandleTypeDef* hadc)
 /*--------------------------------------------------------------------*/
 uint8_t checkValueAdc(uint16_t l_adc_raw)
 {
-	const uint16_t QUAN_LEVELS = 4096; 
-		
+	const uint16_t QUAN_LEVELS = 4096;
+
 	if (l_adc_raw < QUAN_LEVELS)
 	{
 		return 1;
@@ -60,7 +60,7 @@ uint8_t checkValueAdc(uint16_t l_adc_raw)
 	{
 		return 0;
 	}
-		
+
 }
 
 
@@ -78,7 +78,7 @@ float getVoltageAdc(uint16_t l_adc_raw)
 {
 	const uint16_t QUAN_LEVELS = 4096;
 	const float MAX_VOLTAGE = 3.3;
-	
+
 	if (checkValueAdc(l_adc_raw) == 1)
 	{
 		return (MAX_VOLTAGE/(float)QUAN_LEVELS)*l_adc_raw;
@@ -101,8 +101,8 @@ float getVoltageAdc(uint16_t l_adc_raw)
 uint8_t checkVoltageAdc(float l_voltage_adc)
 {
 	const float MAX_VOLTAGE = 3.3;
-  const float MIN_VOLTAGE = 0.0;	
-		
+  const float MIN_VOLTAGE = 0.0;
+
 	if ((l_voltage_adc >= MIN_VOLTAGE) && (l_voltage_adc <= MAX_VOLTAGE))
 	{
 		return 1;
@@ -111,7 +111,7 @@ uint8_t checkVoltageAdc(float l_voltage_adc)
 	{
 		return 0;
 	}
-		
+
 }
 
 
@@ -130,9 +130,9 @@ float getRotationAngle(float l_voltage_adc)
 	const float MAX_ANGLE = 90.0;
 	const float MIN_ANGLE = 0.0;
 	const float MAX_VOLTAGE = 3.3;
-	
+
 	float l_rotation_angle = 0.0;
-	
+
 	if (checkVoltageAdc(l_voltage_adc) == 1)
 	{
 		l_rotation_angle = (MAX_ANGLE/MAX_VOLTAGE)*l_voltage_adc;
@@ -147,7 +147,7 @@ float getRotationAngle(float l_voltage_adc)
 	}
 	else
 	{
-		return 0.0;
+		return 0.0
 	}
 }
 
